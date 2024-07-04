@@ -1,0 +1,33 @@
+.tooltip {
+    position: relative;
+
+    &::after {
+        transition: all linear .1s;
+        content: attr(data-tooltip);
+        background: #585858;
+        color: white;
+        border-radius: 2px;
+        font-size: 10px;
+        white-space: nowrap;
+        padding: 0 4px;
+        position: absolute;
+        bottom: -100%;
+        left: 50%;
+        transform: translateX(-50%) scale(0);
+        opacity: 0;
+    }
+
+    &:hover::after {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+table {
+
+    th:first-child,
+    td:first-child {
+        max-width: 84px;
+        text-align: center;
+    }
+}

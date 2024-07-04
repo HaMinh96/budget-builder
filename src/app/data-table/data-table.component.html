@@ -1,0 +1,185 @@
+@if (months.length) {
+<table class="min-w-full text-left text-sm font-light text-surface border shadow">
+    <thead>
+        <tr class="border-b border-neutral-200 bg-slate-300">
+            <th></th>
+            <th scope="col" class="p-2">Start Period V End Period V</th>
+            @for (month of months; track $index) {
+            <th scope="col" class="p-2 whitespace-nowrap">{{ formatDate(month) }}</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Income -->
+        <tr class="border-b border-neutral-200 bg-slate-200">
+            <td></td>
+            <td [attr.colspan]="months.length + 1" class="p-2 font-bold">Income</td>
+        </tr>
+        @for (category of incomeCategories; track $index; let rowIdx = $index) {
+        <tr class="border-b border-neutral-200">
+            <td>
+                <button class="px-2 tooltip transition linear active:scale-[0.95]" data-tooltip="Remove" (click)="deleteCategory(TYPES.INCOME, rowIdx)">
+                    <app-icon [name]="'delete'"></app-icon>
+                </button>
+            </td>
+            <td class="whitespace-nowrap p-2">
+                <input [attr.data-tab]="'income-name-' + rowIdx" class="rounded" type="text"
+                    [(ngModel)]="category.name" placeholder="Category name">
+            </td>
+            @for (month of months; track $index; let idx = $index) {
+            <td class="whitespace-nowrap p-2">
+                <input class="rounded" type="number" [(ngModel)]="category.data[idx]"
+                    (ngModelChange)="calculateTotal(TYPES.INCOME, idx)"
+                    (keydown.E)="$event.preventDefault()"
+                    (keydown.Tab)="handleTab($event, TYPES.INCOME, idx, rowIdx)" placeholder="Ammount">
+            </td>
+            }
+        </tr>
+        }
+
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td [attr.colspan]="months.length + 1" class="p-2">
+                <a role="button" class="underline text-blue-800" (click)="addCategory(TYPES.INCOME)">
+                    Add new ‘Income’ category
+                </a>
+            </td>
+        </tr>
+
+        <!-- Income Total -->
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td class="whitespace-nowrap p-2 font-bold">Income Total</td>
+            @for (total of incomeTotal; track $index) {
+            <td class="whitespace-nowrap p-2">
+                {{ total }}
+            </td>
+            }
+        </tr>
+
+        <tr class="border-b border-neutral-200">
+            <td class="p-2"></td>
+        </tr>
+
+        <tr class="border-b border-neutral-200 bg-slate-200">
+            <td></td>
+            <td [attr.colspan]="months.length + 1" class="p-2 font-bold">Expenses</td>
+        </tr>
+        <!-- Operational Expenses -->
+        @for (category of operationalExpensesCategories; track $index; let rowIdx = $index) {
+        <tr class="border-b border-neutral-200">
+            <td>
+                <button class="px-2 tooltip transition linear active:scale-[0.95]" data-tooltip="Remove" (click)="deleteCategory(TYPES.OPERARTION_EXPENSES, rowIdx)">
+                    <app-icon [name]="'delete'"></app-icon>
+                </button>
+            </td>
+            <td class="whitespace-nowrap p-2">
+                <input [attr.data-tab]="'operational-name-' + rowIdx" class="rounded" type="text"
+                    [(ngModel)]="category.name" placeholder="Category name">
+            </td>
+            @for (month of months; track $index; let idx = $index) {
+            <td class="whitespace-nowrap p-2">
+                <input class="rounded" type="number" [(ngModel)]="category.data[idx]"
+                    (ngModelChange)="calculateTotal(TYPES.OPERARTION_EXPENSES, idx)"
+                    (keydown.E)="$event.preventDefault()"
+                    (keydown.Tab)="handleTab($event, TYPES.OPERARTION_EXPENSES, idx, rowIdx)" placeholder="Ammount">
+            </td>
+            }
+        </tr>
+        }
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td [attr.colspan]="months.length + 1" class="p-2">
+                <a role="button" class="underline text-blue-800" (click)="addCategory(TYPES.OPERARTION_EXPENSES)">
+                    Add new ‘Operational Expenses’ category
+                </a>
+            </td>
+        </tr>
+
+        <!-- Operational Expenses Total -->
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td class="whitespace-nowrap p-2">Sub Total</td>
+            @for (total of operationalExpensesTotal; track $index) {
+            <td class="whitespace-nowrap p-2">
+                {{ total }}
+            </td>
+            }
+        </tr>
+
+        <!-- Expenses -->
+        @for (category of expensesCategories; track $index; let rowIdx = $index) {
+        <tr class="border-b border-neutral-200">
+            <td>
+                <button class="px-2 tooltip transition linear active:scale-[0.95]" data-tooltip="Remove" (click)="deleteCategory(TYPES.EXPENSES, rowIdx)">
+                    <app-icon [name]="'delete'"></app-icon>
+                </button>
+            </td>
+            <td class="whitespace-nowrap p-2">
+                <input [attr.data-tab]="'expense-name-' + rowIdx" class="rounded" type="text"
+                    [(ngModel)]="category.name" placeholder="Category name">
+            </td>
+            @for (month of months; track $index; let idx = $index) {
+            <td class="whitespace-nowrap p-2">
+                <input class="rounded" type="number" [(ngModel)]="category.data[idx]"
+                    (ngModelChange)="calculateTotal(TYPES.EXPENSES, idx)"
+                    (keydown.E)="$event.preventDefault()"
+                    (keydown.Tab)="handleTab($event, TYPES.EXPENSES, idx, rowIdx)" placeholder="Ammount">
+            </td>
+            }
+        </tr>
+        }
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td [attr.colspan]="months.length + 1" class="p-2">
+                <a role="button" class="underline text-blue-800" (click)="addCategory(TYPES.EXPENSES)">
+                    Add new ‘Expenses’ category
+                </a>
+            </td>
+        </tr>
+
+        <!-- Total Expenses -->
+        <!-- Operational Expenses Total -->
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td class="whitespace-nowrap p-2 font-bold">Total Expenses</td>
+            @for (total of expensesTotal; track $index) {
+            <td class="whitespace-nowrap p-2">
+                {{ total }}
+            </td>
+            }
+        </tr>
+
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td class="whitespace-nowrap p-2 font-bold">Profit / Loss</td>
+            @for (data of profitLoss; track $index) {
+            <td class="whitespace-nowrap p-2">
+                {{ data }}
+            </td>
+            }
+        </tr>
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td class="whitespace-nowrap p-2 font-bold">Opening Balance</td>
+            @for (balance of openingBalance; track $index) {
+            <td class="whitespace-nowrap p-2">
+                {{ balance }}
+            </td>
+            }
+        </tr>
+        <tr class="border-b border-neutral-200">
+            <td></td>
+            <td class="whitespace-nowrap p-2 font-bold">Closing Balance</td>
+            @for (balance of closingBalance; track $index) {
+            <td class="whitespace-nowrap p-2">
+                {{ balance }}
+            </td>
+            }
+        </tr>
+    </tbody>
+</table>
+}
+@else {
+<i class="text-slate-400">Please select month range and press generate.</i>
+}

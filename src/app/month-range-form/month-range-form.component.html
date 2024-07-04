@@ -1,0 +1,18 @@
+<form (ngSubmit)="onSubmit()" #monthRangeForm="ngForm" class="flex items-end">
+
+    <div class="flex flex-col">
+        <label class="font-semibold" for="startingMonth">Starting month:</label>
+        <input class="form-input rounded" type="month" id="startingMonth" required [(ngModel)]="model.startingMonth"
+            name="startingMonth" (ngModelChange)="validateChange()" [max]="model.endingMonth" />
+    </div>
+
+    <div class="flex flex-col ms-2">
+        <label class="font-semibold" for="endingMonth">Ending month:</label>
+        <input class="form-input rounded" type="month" id="endingMonth" required [(ngModel)]="model.endingMonth"
+            name="endingMonth" (ngModelChange)="validateChange()" [min]="model.startingMonth" />
+    </div>
+
+    <button type="submit"
+        class="transition linear rounded bg-neutral-700 hover:bg-neutral-600 active:scale-[0.95] disabled:pointer-events-none disabled:opacity-50 text-slate-50 h-[42px] px-3 ms-2"
+        [disabled]="!validRange">Generate</button>
+</form>

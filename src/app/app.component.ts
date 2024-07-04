@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MonthRangeFormComponent } from './month-range-form/month-range-form.component';
+import { DataTableComponent } from './data-table/data-table.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  standalone: true,
+  imports: [MonthRangeFormComponent, DataTableComponent]
 })
 export class AppComponent {
   title = 'BUDGET-BUILDER';
